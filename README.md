@@ -23,7 +23,7 @@ Before you start, ensure you have the following installed on your machine:
 ### 1. Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/AlexisFerrandis/WEB_DevToolkit.git
 cd DevToolkit
 ```
 
