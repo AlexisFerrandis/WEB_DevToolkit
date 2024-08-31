@@ -10,8 +10,8 @@ const HomePage = () => {
             <header className="text-center mb-12">
                 <h1 className="text-5xl font-bold text-gray-900 mb-4">DevToolkit</h1>
                 <p className="text-lg text-gray-600">
-                    Your go-to collection of development tools.
-                    Select a category below.
+                    Your go-to collection of development tools.<br />
+                    Select a category or a tool below.
                 </p>
             </header>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-6xl w-full px-4">

@@ -11,6 +11,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
     title: "DevToolkit - Your Web Development Tools",
     description: "A collection of essential tools for web developers.",
+    icons: {
+        icon: '/favicon.ico',
+    },
 };
 
 export default function RootLayout({

@@ -24,7 +24,7 @@ Before you start, ensure you have the following installed on your machine:
 
 ```bash
 git clone https://github.com/AlexisFerrandis/WEB_DevToolkit.git
-cd DevToolkit
+cd WEB_DevToolkit
 ```
 
 ### 2. Install Dependencies
