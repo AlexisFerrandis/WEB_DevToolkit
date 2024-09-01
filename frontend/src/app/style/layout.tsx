@@ -3,21 +3,22 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+
+import LoadingSpinner from '../../components/LoadingSpinner';
+
 import { tools, ToolCategory } from '../../utils/tools';
 
 const StyleLayout = ({ children }: { children: React.ReactNode }) => {
     const [styleTools, setStyleTools] = useState<ToolCategory | undefined>(undefined);
 
     useEffect(() => {
-        // Simule le chargement des données
         const loadedTools = tools.find(tool => tool.name === 'Style');
         setStyleTools(loadedTools);
     }, []);
 
     if (!styleTools) {
-        return <p>Loading...</p>; // Affichage en cas de données non chargées
+        return <LoadingSpinner />;
     }
-
     return (
         <main className="flex flex-col items-center min-h-screen p-8 bg-gradient-to-b from-gray-50 to-gray-200">
             <header className="text-center mb-12">

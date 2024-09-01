@@ -43,20 +43,20 @@ const ColorPaletteGenerator: React.FC = () => {
 
     const handleExportCSS = useCallback(() => {
         const cssContent = `
-/* CSS HEX */
-${palette.map((color, i) => `--color-${i}: ${color};`).join('\n')}
+            /* CSS HEX */
+            ${palette.map((color, i) => `--color-${i}: ${color};`).join('\n')}
 
-/* CSS HSL */
-${palette.map(color => `--color-hsl-${palette.indexOf(color)}: ${convertHexToHSL(color)};`).join('\n')}
+            /* CSS HSL */
+            ${palette.map(color => `--color-hsl-${palette.indexOf(color)}: ${convertHexToHSL(color)};`).join('\n')}
 
-/* SCSS HEX */
-${palette.map((color, i) => `$color-${i}: ${color};`).join('\n')}
+            /* SCSS HEX */
+            ${palette.map((color, i) => `$color-${i}: ${color};`).join('\n')}
 
-/* SCSS HSL */
-${palette.map(color => `$color-hsl-${palette.indexOf(color)}: ${convertHexToHSL(color)};`).join('\n')}
+            /* SCSS HSL */
+            ${palette.map(color => `$color-hsl-${palette.indexOf(color)}: ${convertHexToHSL(color)};`).join('\n')}
 
-/* SCSS RGB */
-${palette.map(color => `$color-rgb-${palette.indexOf(color)}: ${convertHexToRGB(color)};`).join('\n')}
+            /* SCSS RGB */
+            ${palette.map(color => `$color-rgb-${palette.indexOf(color)}: ${convertHexToRGB(color)};`).join('\n')}
         `;
         downloadFile(cssContent, 'txt');
     }, [palette]);
@@ -152,9 +152,9 @@ ${palette.map(color => `$color-rgb-${palette.indexOf(color)}: ${convertHexToRGB(
                 ))}
                 <button
                     onClick={addColorToPalette}
-                    className="self-center px-4 py-2 bg-green-500 text-white rounded shadow-md hover:bg-green-700 transition-colors"
+                    className="self-center px-4 py-2 bg-green-500 text-white font-bold rounded shadow-md hover:bg-green-700 transition-colors"
                 >
-                    Add Color
+                    +
                 </button>
             </div>
             {selectedColor && (

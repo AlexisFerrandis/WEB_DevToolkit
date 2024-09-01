@@ -33,7 +33,7 @@ const HomePage = () => {
                             </h2>
                         </Link>
                         <ul className="w-full text-left mt-4">
-                            {category.subcategories.map((subcategory) => (
+                            {category.subcategories.slice(0, 4).map((subcategory) => (
                                 <li key={subcategory.name} className="mb-2">
                                     <Link href={subcategory.path}>
                                         <span className="text-gray-700 hover:text-gray-900 hover:underline">
@@ -42,11 +42,13 @@ const HomePage = () => {
                                     </Link>
                                 </li>
                             ))}
-                            <li className="mb-2">
-                                <span className="text-gray-700">
-                                    ...
-                                </span>
-                            </li>
+                            {category.subcategories.length > 4 && (
+                                <li className="mb-2">
+                                    <span className="text-gray-700">
+                                        ...
+                                    </span>
+                                </li>
+                            )}
                         </ul>
                     </div>
                 ))}

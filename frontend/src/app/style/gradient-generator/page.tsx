@@ -78,7 +78,6 @@ const GradientGenerator: React.FC = () => {
                         width / 2, height / 2, width / 2
                     );
                 } else {
-                    // Conic gradient is not supported natively, so we'll approximate with a radial gradient
                     gradient = ctx.createRadialGradient(
                         width / 2, height / 2, 0,
                         width / 2, height / 2, width / 2
@@ -119,12 +118,11 @@ const GradientGenerator: React.FC = () => {
             <header className="text-center mb-10">
                 <h1 className="text-4xl font-bold text-gray-900 mb-4">Gradient Generator</h1>
                 <p className="text-lg text-gray-600">
-                    Create beautiful gradients and copy the CSS code.
+                    Create beautiful gradients and copy get CSS code.
                 </p>
             </header>
 
             <div className="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {/* Gradient Type Selector */}
                 <div className="bg-white shadow-lg rounded-lg p-6 lg:col-span-1">
                     <h2 className="text-2xl font-semibold text-gray-800 mb-4">Gradient Type</h2>
                     <div className="flex space-x-4 justify-center">
@@ -179,7 +177,6 @@ const GradientGenerator: React.FC = () => {
                     )}
                 </div>
 
-                {/* Gradient Stops */}
                 <div className="bg-white shadow-lg rounded-lg p-6 lg:col-span-2">
                     <h2 className="text-2xl font-semibold text-gray-800 mb-4">Gradient Colors</h2>
                     <div className="flex flex-col space-y-4">
@@ -225,7 +222,6 @@ const GradientGenerator: React.FC = () => {
                 </div>
             </div>
 
-            {/* Combined Preview and CSS Code */}
             <div className="bg-white shadow-lg rounded-lg p-6 mt-6 w-full max-w-4xl">
                 <h2 className="text-2xl font-semibold text-gray-800 mb-4">Preview & CSS Code</h2>
                 <div
@@ -257,7 +253,6 @@ const GradientGenerator: React.FC = () => {
                 </div>
             </div>
 
-            {/* Canvas Element (Hidden) */}
             <canvas ref={canvasRef} width={800} height={600} className="hidden"></canvas>
         </div>
     );

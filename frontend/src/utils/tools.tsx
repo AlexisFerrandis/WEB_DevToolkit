@@ -17,7 +17,8 @@ export const tools: ToolCategory[] = [
         subcategories: [
             { name: "Color Palette Generator", path: "/style/color-palette-generator", icon: "/assets/icons/color-palette-generator-icon.png" },
             { name: "Gradient Generator", path: "/style/gradient-generator", icon: "/assets/icons/gradient-generator-icon.png" },
-            { name: "Pixel to REM Converter", path: "/style/pixel-to-rem-converter", icon: "/assets/icons/pixel-to-rem-converter-icon.png" },
+            { name: "CSS Unit Converter", path: "/style/css-unit-converter", icon: "/assets/icons/css-unity-converter.png" },
+            { name: "SVG Filter Generator", path: "/style/svg-filter-generator", icon: "/assets/icons/svg-filter-generator.png" },
             { name: "CSS Minifier", path: "/style/css-minifier", icon: "/assets/icons/css-minifier-icon.png" },
         ],
         icon: "/assets/icons/style-icon.png",
@@ -28,7 +29,6 @@ export const tools: ToolCategory[] = [
         subcategories: [
             { name: "JavaScript Minifier", path: "/script/javascript-minifier", icon: "/assets/icons/javascript-minifier-icon.png" },
             { name: "JavaScript Formatter", path: "/script/javascript-formatter", icon: "/assets/icons/javascript-formatter-icon.png" },
-            { name: "ES6 to ES5 Converter", path: "/script/es6-to-es5-converter", icon: "/assets/icons/es6-to-es5-converter-icon.png" },
             { name: "Regex Generator", path: "/script/regex-generator", icon: "/assets/icons/regex-generator-icon.png" },
         ],
         icon: "/assets/icons/script-icon.png",
@@ -48,7 +48,6 @@ export const tools: ToolCategory[] = [
         name: "API Tools",
         subcategories: [
             { name: "API Tester", path: "/api-tools/api-tester", icon: "/assets/icons/api-tester-icon.png" },
-            { name: "Request Generator", path: "/api-tools/request-generator", icon: "/assets/icons/request-generator-icon.png" },
         ],
         icon: "/assets/icons/api-tools-icon.png",
         path: "/api-tools",
@@ -56,7 +55,6 @@ export const tools: ToolCategory[] = [
     {
         name: "SEO",
         subcategories: [
-            { name: "Meta Tag Checker", path: "/seo/meta-tag-checker", icon: "/assets/icons/meta-tag-checker-icon.png" },
             { name: "Link Preview", path: "/seo/link-preview", icon: "/assets/icons/link-preview-icon.png" },
         ],
         icon: "/assets/icons/seo-icon.png",
@@ -65,7 +63,6 @@ export const tools: ToolCategory[] = [
     {
         name: "Database",
         subcategories: [
-            { name: "SQL Query Tester", path: "/database/sql-query-tester", icon: "/assets/icons/sql-query-tester-icon.png" },
             { name: "Query Generator", path: "/database/query-generator", icon: "/assets/icons/query-generator-icon.png" },
         ],
         icon: "/assets/icons/database-icon.png",

@@ -5,14 +5,13 @@ import React, { useState } from "react";
 const units = ["px", "rem", "em", "%", "vw", "vh"];
 
 const UnitConverter: React.FC = () => {
-    const [value, setValue] = useState<number>(16); // default to 16px
+    const [value, setValue] = useState<number>(16);
     const [fromUnit, setFromUnit] = useState<string>("px");
-    const [baseSize, setBaseSize] = useState<number>(16); // 1rem = 16px
+    const [baseSize, setBaseSize] = useState<number>(16);
 
     const convertValue = (toUnit: string): number => {
         if (fromUnit === toUnit) return value;
 
-        // Convert to px first
         let pxValue = value;
         switch (fromUnit) {
             case "rem":
@@ -28,10 +27,8 @@ const UnitConverter: React.FC = () => {
             case "vh":
                 pxValue = (value / 100) * window.innerHeight;
                 break;
-            // px is default
         }
 
-        // Convert from px to the target unit
         switch (toUnit) {
             case "rem":
             case "em":
@@ -51,7 +48,7 @@ const UnitConverter: React.FC = () => {
     return (
         <div className="p-8 mb-12 bg-gradient-to-b from-gray-50 to-gray-200 flex flex-col items-center">
             <header className="text-center mb-6">
-                <h1 className="text-4xl font-bold text-gray-900 mb-4">Unit Converter</h1>
+                <h1 className="text-4xl font-bold text-gray-900 mb-4">CSS Unit Converter</h1>
                 <p className="text-lg text-gray-900">
                     Convert between px, rem, em, %, vw, vh
                 </p>
