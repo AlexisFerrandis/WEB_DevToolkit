@@ -188,7 +188,7 @@ const ColorPaletteGenerator: React.FC = () => {
                     className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded shadow-md"
                     style={{ backgroundColor: primaryColor }}
                 >
-                    Download CSS (as TXT)
+                    Download CSS
                 </button>
             </div>
         </div>

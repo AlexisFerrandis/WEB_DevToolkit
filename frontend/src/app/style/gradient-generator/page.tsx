@@ -118,7 +118,7 @@ const GradientGenerator: React.FC = () => {
             <header className="text-center mb-10">
                 <h1 className="text-4xl font-bold text-gray-900 mb-4">Gradient Generator</h1>
                 <p className="text-lg text-gray-600">
-                    Create beautiful gradients and copy get CSS code.
+                    Create beautiful gradients and copy the CSS code.
                 </p>
             </header>
 
@@ -147,7 +147,7 @@ const GradientGenerator: React.FC = () => {
                     </div>
                     {(gradientType === "linear" || gradientType === "conic") && (
                         <div className="flex justify-center space-x-2 mt-4">
-                            <label htmlFor="angle" className="text-gray-700"></label>
+                            <label htmlFor="angle" className="text-gray-700">Angle:</label>
                             <input
                                 id="angle"
                                 type="range"
@@ -157,7 +157,7 @@ const GradientGenerator: React.FC = () => {
                                 onChange={(e) => setAngle(Number(e.target.value))}
                                 className="w-32 slider"
                             />
-                            <span className="text-gray-700"></span>
+                            <span className="text-gray-700">{angle}°</span>
                         </div>
                     )}
 
@@ -187,12 +187,8 @@ const GradientGenerator: React.FC = () => {
                                         type="color"
                                         value={stop.color}
                                         onChange={(e) => handleColorChange(index, e.target.value)}
-                                        className="w-16 h-8 opacity-0 cursor-pointer"
+                                        className="w-16 h-8 cursor-pointer"
                                     />
-                                    <div
-                                        className="absolute top-0 left-0 w-16 h-8 rounded border border-gray-300"
-                                        style={{ backgroundColor: stop.color }}
-                                    ></div>
                                 </div>
                                 <input
                                     type="range"
@@ -242,7 +238,7 @@ const GradientGenerator: React.FC = () => {
                         onClick={handleCopyToClipboard}
                         className="px-4 py-2 bg-black text-white rounded shadow-md hover:bg-gray-800 transition-colors"
                     >
-                        Copy CSS to Clipboard
+                        Copy CSS
                     </button>
                     <button
                         onClick={downloadImage}
