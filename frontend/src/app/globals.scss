@@ -3,25 +3,16 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
+  --foreground-rgb: 0, 0, 0; /* Texte noir en mode clair */
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 0, 0, 0;
-    --background-start-rgb: 214, 219, 220;
-    --background-end-rgb: 255, 255, 255;
-  }
+html.dark {
+  --foreground-rgb: 255, 255, 255; /* Texte blanc en mode sombre */
+  --background-start-rgb: 32, 32, 32;
+  --background-end-rgb: 16, 16, 16;
 }
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-} */
 
 body {
   color: rgb(var(--foreground-rgb));
@@ -80,8 +71,8 @@ body {
   margin: 0;
   font: inherit;
   color: currentColor;
-  width: 1.15em;
-  height: 1.15em;
+  width: 1em;
+  height: 1em;
   border: 0.15em solid currentColor;
   border-radius: 0.15em;
   display: grid;
@@ -90,8 +81,8 @@ body {
 }
 .checkbox:before {
   content: "";
-  width: 0.65em;
-  height: 0.65em;
+  width: 1em;
+  height: 1em;
   transform: scale(0);
   transition: 120ms transform ease-in-out;
   box-shadow: inset 1em 1em var(--form-control-color);
@@ -99,4 +90,41 @@ body {
 }
 .checkbox:checked:before {
   transform: scale(1);
+}
+
+.dark-mode-input {
+  visibility: hidden;
+}
+
+.dark-mode-label {
+  background-color: black;
+  height: 20px;  
+  width: 40px;   
+  margin-top: 8px;
+  position: relative;
+  border-radius: 12px;  
+  cursor: pointer;
+  display: inline-block;
+  transition: background-color 0.3s;
+}
+
+.dark-mode-circle {
+  width: 16px;   
+  height: 16px;  
+  background-color: white;
+  position: absolute;
+  top: 2px;     // Ajustement pour centrer la poignée verticalement
+  left: 2px;    // Ajustement pour aligner la poignée à gauche
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);  // Réduction de l'ombre
+  transition: transform 0.3s, background-color 0.3s;
+}
+
+.dark-mode-input:checked + .dark-mode-label {
+  background-color: white;
+}
+
+.dark-mode-input:checked + .dark-mode-label .dark-mode-circle {
+  background-color: black;
+  transform: translateX(20px);  // Ajustement de la distance de translation pour correspondre à la nouvelle largeur du toggle
 }

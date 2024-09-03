@@ -37,7 +37,8 @@ const ColorPaletteGenerator: React.FC = () => {
     }, [palette]);
 
     const handleExportSVG = useCallback(() => {
-        const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">\n${palette.map((color, i) => `<rect fill="${color}" width="20%" height="100%" x="${i * 20}%" />`).join('\n')}\n</svg>`;
+        const rectWidth = 100 / palette.length;
+        const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">\n${palette.map((color, i) => `<rect fill="${color}" width="${rectWidth}%" height="100%" x="${i * rectWidth}%" />`).join('\n')}\n</svg>`;
         downloadFile(svgContent, 'svg');
     }, [palette]);
 
@@ -111,16 +112,18 @@ const ColorPaletteGenerator: React.FC = () => {
     const primaryColor = palette[2] || '#000000';
 
     return (
-        <div className="p-8 mb-12 bg-gradient-to-b from-gray-50 to-gray-200 flex flex-col items-center">
+        <div className="p-8 mb-12 bg-gradient-to-b from-gray-50 to-gray-200 dark:from-gray-800 dark:to-gray-900 flex flex-col items-center transition-colors duration-300 ease-in-out">
             <header className="text-center mb-10">
-                <h1 className="text-4xl font-bold text-gray-900 mb-4">Color Palette Generator</h1>
-                <p className="text-lg text-gray-600">
+                <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4 transition-colors duration-300 ease-in-out">
+                    Color Palette Generator
+                </h1>
+                <p className="text-lg text-gray-600 dark:text-gray-300 transition-colors duration-300 ease-in-out">
                     Click on a color to edit or copy it. Refresh to generate new colors.
                 </p>
             </header>
             <button
                 onClick={() => setPalette(generateRandomPalette())}
-                className="mb-6 px-6 py-2 bg-black text-white font-bold rounded shadow-md hover:bg-gray-800 transition-colors"
+                className="mb-6 px-6 py-2 bg-black text-white font-bold rounded shadow-md hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-300 transition-colors duration-300 ease-in-out"
             >
                 Generate New Palette
             </button>
@@ -128,7 +131,7 @@ const ColorPaletteGenerator: React.FC = () => {
                 {palette.map((color, index) => (
                     <div key={index} className="group relative cursor-pointer">
                         <div
-                            className="w-full h-32 rounded-lg shadow-md"
+                            className="w-full h-32 rounded-lg shadow-md transition-transform transform hover:scale-105"
                             style={{ backgroundColor: color }}
                             onClick={() => handleColorSelection(color)}
                         />
@@ -139,12 +142,12 @@ const ColorPaletteGenerator: React.FC = () => {
                             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                             title="Change color"
                         />
-                        <div className="absolute inset-x-0 bottom-0 p-4 bg-white bg-opacity-80 text-gray-900 text-sm font-medium hidden group-hover:block rounded-b-lg shadow-lg">
+                        <div className="absolute inset-x-0 bottom-0 p-4 bg-white dark:bg-gray-700 bg-opacity-80 text-gray-900 dark:text-gray-100 text-sm font-medium hidden group-hover:block rounded-b-lg shadow-lg transition-colors duration-300 ease-in-out">
                             {color}
                         </div>
                         <button
                             onClick={() => removeColorFromPalette(index)}
-                            className="absolute top-2 right-2 bg-red-500 text-white rounded-full px-2 py-1 text-xs shadow-md hover:bg-red-600"
+                            className="absolute top-2 right-2 bg-red-500 text-white rounded-full px-2 py-1 text-xs shadow-md hover:bg-red-600 transition-colors duration-300 ease-in-out"
                         >
                             X
                         </button>
@@ -152,17 +155,17 @@ const ColorPaletteGenerator: React.FC = () => {
                 ))}
                 <button
                     onClick={addColorToPalette}
-                    className="self-center px-4 py-2 bg-green-500 text-white font-bold rounded shadow-md hover:bg-green-700 transition-colors"
+                    className="self-center px-4 py-2 bg-green-500 text-white font-bold rounded shadow-md hover:bg-green-700 transition-colors duration-300 ease-in-out"
                 >
                     +
                 </button>
             </div>
             {selectedColor && (
-                <div className="mt-6 p-4 bg-white rounded-lg shadow-lg text-lg">
+                <div className="mt-6 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg text-lg transition-colors duration-300 ease-in-out">
                     <p>Selected Color: <span className="font-bold" style={{ color: selectedColor }}>{selectedColor}</span></p>
                     <button
                         onClick={() => navigator.clipboard.writeText(selectedColor)}
-                        className="mt-2 px-4 py-2 bg-blue-500 text-white rounded shadow-md hover:bg-blue-700 transition-colors"
+                        className="mt-2 px-4 py-2 bg-blue-500 text-white rounded shadow-md hover:bg-blue-700 transition-colors duration-300 ease-in-out"
                     >
                         Copy to Clipboard
                     </button>
@@ -171,21 +174,21 @@ const ColorPaletteGenerator: React.FC = () => {
             <div className="space-x-4 mt-8 flex">
                 <button
                     onClick={handleExportJSON}
-                    className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded shadow-md"
+                    className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded shadow-md transition-colors duration-300 ease-in-out"
                     style={{ backgroundColor: primaryColor }}
                 >
                     Download JSON
                 </button>
                 <button
                     onClick={handleExportSVG}
-                    className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded shadow-md"
+                    className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded shadow-md transition-colors duration-300 ease-in-out"
                     style={{ backgroundColor: primaryColor }}
                 >
                     Download SVG
                 </button>
                 <button
                     onClick={handleExportCSS}
-                    className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded shadow-md"
+                    className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded shadow-md transition-colors duration-300 ease-in-out"
                     style={{ backgroundColor: primaryColor }}
                 >
                     Download CSS

@@ -340,10 +340,10 @@ const SVGFilterGenerator: React.FC = () => {
     };
 
     return (
-        <div className="relative p-8 mb-12 bg-gradient-to-b from-gray-50 to-gray-200 flex flex-col items-center">
+        <div className="relative p-8 mb-12 bg-gradient-to-b from-gray-50 to-gray-200 dark:from-gray-800 dark:to-gray-900 flex flex-col items-center transition-colors duration-300 ease-in-out">
             <header className="text-center mb-10">
-                <h1 className="text-4xl font-bold text-gray-900 mb-4">SVG Filter Generator</h1>
-                <p className="text-lg text-gray-600">
+                <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4 transition-colors duration-300 ease-in-out">SVG Filter Generator</h1>
+                <p className="text-lg text-gray-600 dark:text-gray-300 transition-colors duration-300 ease-in-out">
                     Enter a HEX color to generate the corresponding CSS filter.
                 </p>
             </header>
@@ -353,11 +353,11 @@ const SVGFilterGenerator: React.FC = () => {
                     value={targetColor}
                     onChange={(e) => setTargetColor(e.target.value)}
                     placeholder="Enter target hex color"
-                    className="w-full p-2 border rounded shadow-sm text-center text-black"
+                    className="w-full p-2 border rounded shadow-sm text-center text-black dark:bg-gray-700 dark:text-gray-100"
                 />
                 <button
                     onClick={handleComputeFilters}
-                    className="mt-4 w-full px-6 py-2 bg-black text-white font-bold rounded shadow-md hover:bg-gray-800 transition-colors"
+                    className="mt-4 w-full px-6 py-2 bg-black text-white dark:bg-white dark:text-black font-bold rounded shadow-md hover:bg-gray-800 dark:hover:bg-gray-300 transition-colors duration-300 ease-in-out"
                 >
                     Compute Filters
                 </button>
@@ -368,33 +368,33 @@ const SVGFilterGenerator: React.FC = () => {
                 </div>
             )}
             {computedFilter && (
-                <div className="relative mx-auto bg-white rounded-xl shadow-2xl p-8 text-center">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-6">Computed CSS Filter</h2>
-                    <div className="bg-gray-100 p-4 rounded-lg mb-6 shadow-sm relative">
-                        <p className="font-mono text-sm text-gray-700">
+                <div className="relative mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-2xl p-8 text-center transition-colors duration-300 ease-in-out">
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">Computed CSS Filter</h2>
+                    <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg mb-6 shadow-sm relative transition-colors duration-300 ease-in-out">
+                        <p className="font-mono text-sm text-gray-700 dark:text-gray-100">
                             filter: {computedFilter}
                         </p>
                         <button
                             onClick={handleCopyToClipboard}
-                            className="absolute top-12 right-2 px-4 py-2 bg-black text-white font-bold rounded hover:bg-gray-800 transition-colors text-sm"
+                            className="absolute top-12 right-2 px-4 py-2 bg-black text-white dark:bg-white dark:text-black font-bold rounded hover:bg-gray-800 dark:hover:bg-gray-300 transition-colors text-sm"
                         >
                             {copySuccess ? 'Copied!' : 'Copy'}
                         </button>
                     </div>
-                    <p className="text-sm text-gray-600 mb-6 whitespace-pre-line">
+                    <p className="text-sm text-gray-600 dark:text-gray-300 mb-6 whitespace-pre-line transition-colors duration-300 ease-in-out">
                         <span className="font-bold">Loss: {lossDetail}</span>
                         <br />
                     </p>
                     <div className="grid grid-cols-2 gap-8">
                         <div className="flex flex-col items-center">
-                            <p className="text-md font-medium text-gray-800 mb-2">Real Pixel</p>
+                            <p className="text-md font-medium text-gray-800 dark:text-gray-100 mb-2">Real Pixel</p>
                             <div
                                 className="w-24 h-24 rounded-full"
                                 style={{ backgroundColor: targetColor }}
                             />
                         </div>
                         <div className="flex flex-col items-center">
-                            <p className="text-md font-medium text-gray-800 mb-2">Filtered Pixel</p>
+                            <p className="text-md font-medium text-gray-800 dark:text-gray-100 mb-2">Filtered Pixel</p>
                             <div
                                 className="w-24 h-24 rounded-full"
                                 style={{ backgroundColor: targetColor, filter: computedFilter }}
