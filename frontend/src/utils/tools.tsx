@@ -23,6 +23,8 @@ export const tools: ToolCategory[] = [
             { name: "Text Shadow", path: "/style/text-shadow-generator", icon: "/assets/icons/text-shadow-generator.png" },
             { name: "CSS Unit Converter", path: "/style/css-unit-converter", icon: "/assets/icons/css-unity-converter.png" },
             { name: "Grid Interpreter", path: "/style/grid-interpreter", icon: "/assets/icons/grid-interpreter.png" },
+            { name: "Custom Bezier Curves", path: "/style/custom-bezier-curves", icon: "/assets/icons/custom-bezier-curves.png" },
+            { name: "Animation Designer", path: "/style/animation-designer", icon: "/assets/icons/animation-designer.png" },
         ],
         icon: "/assets/icons/style-icon.png",
         path: "/style",
