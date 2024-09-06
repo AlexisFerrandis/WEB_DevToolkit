@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
 import React, { useState, useCallback } from "react";
 
-// Classe Color avec gestion stricte des types
+// Classe Color pour la gestion des transformations colorimétriques
 class Color {
     r: number = 0;
     g: number = 0;
@@ -295,8 +295,6 @@ function hexToRgb(hex: string): number[] | null {
         : null;
 }
 
-
-
 const SVGFilterGenerator: React.FC = () => {
     const [targetColor, setTargetColor] = useState<string>("#00a4d6");
     const [computedFilter, setComputedFilter] = useState<string | null>(null);
@@ -382,7 +380,7 @@ const SVGFilterGenerator: React.FC = () => {
                         </button>
                     </div>
                     <p className="text-sm text-gray-600 dark:text-gray-300 mb-6 whitespace-pre-line transition-colors duration-300 ease-in-out">
-                        <span className="font-bold">Loss: {lossDetail}</span>
+                        <span className="font-bold">Loss ratio: {lossDetail}</span>
                         <br />
                     </p>
                     <div className="grid grid-cols-2 gap-8">

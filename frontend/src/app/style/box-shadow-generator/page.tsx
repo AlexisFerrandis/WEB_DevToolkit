@@ -132,8 +132,8 @@ const BoxShadowGenerator: React.FC = () => {
                     </div>
                 </div>
 
-                <div className="bg-gray-100 dark:bg-gray-700 shadow-lg rounded-lg p-6 lg:col-span-2 transition-colors duration-300 ease-in-out">
-                    <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-4">Preview & CSS Code</h2>
+                <div className="bg-gray-100 dark:bg-gray-200 shadow-lg rounded-lg p-6 lg:col-span-2 transition-colors duration-300 ease-in-out">
+                    <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-600 mb-4">Preview & CSS Code</h2>
 
                     <div
                         id="box-shadow-preview"

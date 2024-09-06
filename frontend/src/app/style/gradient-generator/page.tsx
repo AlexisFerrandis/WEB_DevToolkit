@@ -23,46 +23,59 @@ const GradientGenerator: React.FC = () => {
     const [copySuccess, setCopySuccess] = useState(false);
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
-    const handleColorChange = useCallback((index: number, color: string) => {
-        const newStops = [...gradientStops];
-        newStops[index].color = color;
-        setGradientStops(newStops);
-    }, [gradientStops]);
+    // Fonction qui ajuste les positions des couleurs à chaque ajout et les arrondit
+    const adjustGradientStops = (stops: GradientStop[]) => {
+        const stopCount = stops.length;
+        const newStops = stops.map((stop, index) => ({
+            ...stop,
+            position: Math.round((index / (stopCount - 1)) * 100),
+        }));
+        return newStops;
+    };
 
-    const handlePositionChange = useCallback((index: number, position: number) => {
-        const newStops = [...gradientStops];
-        newStops[index].position = position;
-        setGradientStops(newStops);
-    }, [gradientStops]);
+    const handleColorChange = useCallback(
+        (index: number, color: string) => {
+            const newStops = [...gradientStops];
+            newStops[index].color = color;
+            setGradientStops(newStops);
+        },
+        [gradientStops]
+    );
+
+    const handlePositionChange = useCallback(
+        (index: number, position: number) => {
+            const newStops = [...gradientStops];
+            newStops[index].position = position;
+            setGradientStops(newStops);
+        },
+        [gradientStops]
+    );
 
     const addColorStop = () => {
-        setGradientStops([...gradientStops, { color: "#ffffff", position: 100 }]);
+        const newStops = [...gradientStops, { color: "#ffffff", position: 100 }];
+        setGradientStops(adjustGradientStops(newStops));
     };
 
     const removeColorStop = (index: number) => {
         if (gradientStops.length > 2) {
-            setGradientStops(gradientStops.filter((_, i) => i !== index));
+            const newStops = gradientStops.filter((_, i) => i !== index);
+            setGradientStops(adjustGradientStops(newStops));
         }
     };
 
     const generateCSS = () => {
         const colorStops = gradientStops
-            .map(stop => `${stop.color} ${stop.position}%`)
+            .map((stop) => `${stop.color} ${stop.position}%`)
             .join(", ");
 
         if (gradientType === "linear") {
             return `linear-gradient(${angle}deg, ${colorStops})`;
         } else if (gradientType === "radial") {
-            if (radialShape === "circle") {
-                return `radial-gradient(circle at ${ellipsePosition}% ${shapeHeightIntensity}%, ${colorStops})`;
-            } else {
-                return `radial-gradient(ellipse at ${ellipsePosition}% ${shapeHeightIntensity}%, ${colorStops})`;
-            }
+            return `radial-gradient(${radialShape} at ${ellipsePosition}% ${shapeHeightIntensity}%, ${colorStops})`;
         } else if (gradientType === "conic") {
             return `conic-gradient(from ${angle}deg, ${colorStops})`;
-        } else {
-            return "";
         }
+        return "";
     };
 
     const handleCopyToClipboard = () => {
@@ -80,30 +93,36 @@ const GradientGenerator: React.FC = () => {
                 const width = canvas.width;
                 const height = canvas.height;
                 let gradient;
+
                 if (gradientType === "linear") {
                     gradient = ctx.createLinearGradient(0, 0, width, 0);
                 } else if (gradientType === "radial") {
                     const radius = Math.min(width, height) / 2 * (shapeHeightIntensity / 100);
                     gradient = ctx.createRadialGradient(
-                        (width / 2) * (ellipsePosition / 100), height / 2, 0,
-                        width / 2, height / 2, radius
+                        (width / 2) * (ellipsePosition / 100),
+                        height / 2,
+                        0,
+                        width / 2,
+                        height / 2,
+                        radius
                     );
                 } else {
                     gradient = ctx.createConicGradient(
-                        angle * (Math.PI / 180),
-                        width / 2, height / 2
+                        (angle * Math.PI) / 180,
+                        width / 2,
+                        height / 2
                     );
                 }
 
-                gradientStops.forEach(stop => {
+                gradientStops.forEach((stop) => {
                     gradient.addColorStop(stop.position / 100, stop.color);
                 });
 
                 ctx.fillStyle = gradient;
                 ctx.fillRect(0, 0, width, height);
 
-                const link = document.createElement('a');
-                link.download = 'gradient.png';
+                const link = document.createElement("a");
+                link.download = "gradient.png";
                 link.href = canvas.toDataURL();
                 link.click();
             }
@@ -116,7 +135,9 @@ const GradientGenerator: React.FC = () => {
         const percentage = (x / rect.width) * 100;
 
         const closestIndex = gradientStops.reduce((prevIndex, stop, index) => {
-            return Math.abs(stop.position - percentage) < Math.abs(gradientStops[prevIndex].position - percentage) ? index : prevIndex;
+            return Math.abs(stop.position - percentage) < Math.abs(gradientStops[prevIndex].position - percentage)
+                ? index
+                : prevIndex;
         }, 0);
 
         const updatedStops = [...gradientStops];
@@ -141,27 +162,58 @@ const GradientGenerator: React.FC = () => {
                     <div className="flex space-x-4 justify-center">
                         <button
                             onClick={() => setGradientType("linear")}
-                            className={`px-4 py-2 rounded font-bold ${gradientType === "linear" ? "bg-black text-white dark:bg-white dark:text-black" : "bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300"}`}
+                            className={`px-4 py-2 rounded font-bold ${gradientType === "linear"
+                                    ? "bg-black text-white dark:bg-white dark:text-black"
+                                    : "bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
+                                }`}
                         >
                             Linear
                         </button>
                         <button
                             onClick={() => setGradientType("radial")}
-                            className={`px-4 py-2 rounded font-bold ${gradientType === "radial" ? "bg-black text-white dark:bg-white dark:text-black" : "bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300"}`}
+                            className={`px-4 py-2 rounded font-bold ${gradientType === "radial"
+                                    ? "bg-black text-white dark:bg-white dark:text-black"
+                                    : "bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
+                                }`}
                         >
                             Radial
                         </button>
                         <button
                             onClick={() => setGradientType("conic")}
-                            className={`px-4 py-2 rounded font-bold ${gradientType === "conic" ? "bg-black text-white dark:bg-white dark:text-black" : "bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300"}`}
+                            className={`px-4 py-2 rounded font-bold ${gradientType === "conic"
+                                    ? "bg-black text-white dark:bg-white dark:text-black"
+                                    : "bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
+                                }`}
                         >
                             Conic
                         </button>
                     </div>
+
+                    {/* Désactivation de l'angle pour les gradients radiaux de type ellipse */}
+                    {!(gradientType === "radial" && radialShape === "ellipse") && (
+                        <div className="flex justify-center space-x-2 mt-4">
+                            <label htmlFor="angle" className="text-gray-700 dark:text-gray-300">
+                                Angle:
+                            </label>
+                            <input
+                                id="angle"
+                                type="range"
+                                value={angle}
+                                min={0}
+                                max={360}
+                                onChange={(e) => setAngle(Number(e.target.value))}
+                                className="w-32 slider"
+                            />
+                            <span className="text-gray-700 dark:text-gray-300">{angle}°</span>
+                        </div>
+                    )}
+
                     {gradientType === "radial" && (
                         <>
                             <div className="flex justify-center space-x-4 mt-4">
-                                <label htmlFor="radialShape" className="text-gray-700 dark:text-gray-300">Shape:</label>
+                                <label htmlFor="radialShape" className="text-gray-700 dark:text-gray-300">
+                                    Shape:
+                                </label>
                                 <select
                                     id="radialShape"
                                     value={radialShape}
@@ -173,7 +225,9 @@ const GradientGenerator: React.FC = () => {
                                 </select>
                             </div>
                             <div className="flex justify-center space-x-2 mt-4">
-                                <label htmlFor="ellipsePosition" className="text-gray-700 dark:text-gray-300">Position:</label>
+                                <label htmlFor="ellipsePosition" className="text-gray-700 dark:text-gray-300">
+                                    Position:
+                                </label>
                                 <input
                                     id="ellipsePosition"
                                     type="range"
@@ -186,7 +240,9 @@ const GradientGenerator: React.FC = () => {
                                 <span className="text-gray-700 dark:text-gray-300">{ellipsePosition}%</span>
                             </div>
                             <div className="flex justify-center space-x-2 mt-4">
-                                <label htmlFor="shapeHeightIntensity" className="text-gray-700 dark:text-gray-300">Height:</label>
+                                <label htmlFor="shapeHeightIntensity" className="text-gray-700 dark:text-gray-300">
+                                    Height:
+                                </label>
                                 <input
                                     id="shapeHeightIntensity"
                                     type="range"
@@ -256,7 +312,7 @@ const GradientGenerator: React.FC = () => {
                     value={generateCSS()}
                     className="w-full border rounded p-2 bg-gray-100 text-black dark:bg-gray-700 dark:text-gray-100 mb-4 transition-colors duration-300 ease-in-out"
                     rows={3}
-                    style={{ resize: 'none' }}
+                    style={{ resize: "none" }}
                 />
                 <div className="flex space-x-4">
                     <button

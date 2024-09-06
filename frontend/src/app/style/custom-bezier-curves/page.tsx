@@ -13,6 +13,7 @@ const BezierCurveEditor: React.FC = () => {
         { x: 0.70, y: 0.18 },
     ]);
     const [copySuccess, setCopySuccess] = useState(false);
+    const [animationStarted, setAnimationStarted] = useState(false);
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const animationRef = useRef<number | null>(null);
     const [animationProgress, setAnimationProgress] = useState(0);
@@ -32,11 +33,11 @@ const BezierCurveEditor: React.FC = () => {
                     const cp2 = { x: controlPoints[1].x * canvas.width, y: (1 - controlPoints[1].y) * canvas.height };
 
                     // Background
-                    ctx.fillStyle = "#f3f4f6"; // Light background for better contrast
+                    ctx.fillStyle = "#f3f4f6";
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
                     // Draw the Bezier curve
-                    ctx.strokeStyle = "#1f2937"; // Darker color for the curve
+                    ctx.strokeStyle = "#1f2937";
                     ctx.lineWidth = 3;
                     ctx.beginPath();
                     ctx.moveTo(startPoint.x, startPoint.y);
@@ -44,7 +45,7 @@ const BezierCurveEditor: React.FC = () => {
                     ctx.stroke();
 
                     // Draw control points and lines
-                    ctx.strokeStyle = "#9ca3af"; // Light gray for lines connecting control points
+                    ctx.strokeStyle = "#9ca3af";
                     ctx.lineWidth = 1;
                     ctx.beginPath();
                     ctx.moveTo(startPoint.x, startPoint.y);
@@ -54,8 +55,8 @@ const BezierCurveEditor: React.FC = () => {
                     ctx.stroke();
 
                     // Draw control points
-                    ctx.fillStyle = "#3b82f6"; // Blue color for control points
-                    ctx.strokeStyle = "#ffffff"; // White border for control points
+                    ctx.fillStyle = "#3b82f6";
+                    ctx.strokeStyle = "#ffffff";
                     ctx.lineWidth = 2;
                     ctx.beginPath();
                     ctx.arc(cp1.x, cp1.y, 8, 0, 2 * Math.PI);
@@ -71,7 +72,7 @@ const BezierCurveEditor: React.FC = () => {
                     const x = (1 - t) ** 3 * startPoint.x + 3 * (1 - t) ** 2 * t * cp1.x + 3 * (1 - t) * t ** 2 * cp2.x + t ** 3 * endPoint.x;
                     const y = (1 - t) ** 3 * startPoint.y + 3 * (1 - t) ** 2 * t * cp1.y + 3 * (1 - t) * t ** 2 * cp2.y + t ** 3 * endPoint.y;
 
-                    ctx.fillStyle = "#ef4444"; // Red color for the moving point
+                    ctx.fillStyle = "#ef4444";
                     ctx.beginPath();
                     ctx.arc(x, y, 6, 0, 2 * Math.PI);
                     ctx.fill();
@@ -81,11 +82,6 @@ const BezierCurveEditor: React.FC = () => {
 
         drawBezierCurve();
     }, [controlPoints, animationProgress]);
-
-    useEffect(() => {
-        startAnimation();
-        return () => stopAnimation(); // Cleanup on unmount
-    }, []);
 
     const handleControlPointChange = (index: number, axis: "x" | "y", value: number) => {
         const newControlPoints = [...controlPoints];
@@ -106,17 +102,8 @@ const BezierCurveEditor: React.FC = () => {
     };
 
     const startAnimation = () => {
-        const animate = () => {
-            setAnimationProgress((prev) => (prev + 1) % 101);
-            animationRef.current = requestAnimationFrame(animate);
-        };
-        animate();
-    };
-
-    const stopAnimation = () => {
-        if (animationRef.current) {
-            cancelAnimationFrame(animationRef.current);
-        }
+        setAnimationStarted(true);
+        setAnimationProgress(0); // Reset progress
     };
 
     const handleCanvasMouseDown = (event: React.MouseEvent<HTMLCanvasElement>) => {
@@ -126,7 +113,6 @@ const BezierCurveEditor: React.FC = () => {
             const x = event.clientX - rect.left;
             const y = event.clientY - rect.top;
 
-            // Check if a control point is clicked
             const clickedPointIndex = controlPoints.findIndex(point => {
                 const px = point.x * canvas.width;
                 const py = (1 - point.y) * canvas.height;
@@ -178,7 +164,7 @@ const BezierCurveEditor: React.FC = () => {
                     <div className="flex flex-col space-y-4">
                         {controlPoints.map((point, index) => (
                             <div key={index} className="flex space-x-4 items-center">
-                                <label className="text-gray-700 dark:text-gray-300">P{index + 1}</label>
+                                <label htmlFor={`x-${index}`} className="text-gray-700 dark:text-gray-300">P{index + 1}</label>
                                 <div className="flex flex-col space-y-2">
                                     <div className="flex items-center space-x-2">
                                         <label htmlFor={`x-${index}`} className="text-gray-700 dark:text-gray-300">X:</label>
@@ -188,6 +174,7 @@ const BezierCurveEditor: React.FC = () => {
                                             value={point.x * 100}
                                             min={0}
                                             max={100}
+                                            aria-label={`Adjust X of P${index + 1}`}
                                             onChange={(e) => handleControlPointChange(index, "x", Number(e.target.value) / 100)}
                                             className="w-32 slider"
                                         />
@@ -201,6 +188,7 @@ const BezierCurveEditor: React.FC = () => {
                                             value={point.y * 100}
                                             min={0}
                                             max={100}
+                                            aria-label={`Adjust Y of P${index + 1}`}
                                             onChange={(e) => handleControlPointChange(index, "y", Number(e.target.value) / 100)}
                                             className="w-32 slider"
                                         />
@@ -223,6 +211,7 @@ const BezierCurveEditor: React.FC = () => {
                         onMouseMove={handleCanvasMouseMove}
                         onMouseUp={handleCanvasMouseUp}
                         onMouseLeave={handleCanvasMouseLeave}
+                        aria-label="Bezier curve preview canvas"
                     ></canvas>
                     <textarea
                         readOnly
@@ -230,15 +219,50 @@ const BezierCurveEditor: React.FC = () => {
                         className="w-full border rounded p-2 bg-gray-100 text-black dark:bg-gray-700 dark:text-gray-100 mb-4 transition-colors duration-300 ease-in-out"
                         rows={3}
                         style={{ resize: 'none' }}
+                        aria-readonly="true"
                     />
                     <button
                         onClick={handleCopyToClipboard}
                         className="px-4 py-2 bg-black font-bold text-white dark:bg-white dark:text-black rounded shadow-md hover:bg-gray-800 dark:hover:bg-gray-300 transition-colors duration-300 ease-in-out"
+                        aria-live="polite"
                     >
                         {copySuccess ? "Copied!" : "Copy CSS"}
                     </button>
                 </div>
             </div>
+
+            <div className="w-full flex justify-center mt-10">
+                <div
+                    className={`w-16 h-16 bg-red-500 rounded-full ${animationStarted ? 'animate' : ''}`}
+                    style={{
+                        transform: `translateX(${animationProgress}%)`,
+                        transition: `transform 5s cubic-bezier(${controlPoints[0].x}, ${controlPoints[0].y}, ${controlPoints[1].x}, ${controlPoints[1].y})`
+                    }}
+                    aria-label="Animated div following cubic-bezier path"
+                ></div>
+            </div>
+
+            <button
+                onClick={startAnimation}
+                className="mt-6 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+            >
+                Start Animation
+            </button>
+
+            <style jsx>{`
+                .animate {
+                    animation: moveAcrossScreen 5s forwards cubic-bezier(${controlPoints[0].x}, ${controlPoints[0].y}, ${controlPoints[1].x}, ${controlPoints[1].y});
+                }
+
+                @keyframes moveAcrossScreen {
+                    0% {
+                        transform: translateX(0);
+                    }
+                    100% {
+                        transform: translateX(calc(100vw - 4rem));
+                    }
+                }
+            `}</style>
         </div>
     );
 };

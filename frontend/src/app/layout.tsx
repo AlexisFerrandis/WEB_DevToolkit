@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
     title: "DevToolkit - Your Web Development Tools",
-    description: "A collection of essential tools for web developers.",
+    description: "WebDev Toolkit: A comprehensive all-in-one platform for web developers, featuring essential tools like CSS management, image optimization, JavaScript enhancement, API testing, and SEO analysis, designed to boost productivity and streamline your workflow.",
     icons: {
         icon: '/favicon.ico',
     },
